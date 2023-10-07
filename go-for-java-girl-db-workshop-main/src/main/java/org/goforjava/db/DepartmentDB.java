@@ -11,12 +11,12 @@ public class DepartmentDB implements DB<Department> {
 
     @Override
     public List<Department> findAll() {
-        return List.of();
+        return departmentMap.values().stream().toList();
     }
 
     @Override
     public Optional<Department> findById(Id id) {
-        return Optional.empty();
+        return Optional.ofNullable(departmentMap.get(id));
     }
 
     @Override

@@ -6,6 +6,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 
+import java.util.stream.Collectors;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -55,17 +57,21 @@ public class EmployeeStatsServiceTest extends EmployeesTest {
     }
 
     @Test
-    void shouldFindEmployeesBasedInGivenLocation() {
-        //when
-        var employees = employeeStatsService.findEmployeesBasedIn(Localtion.GERMANY);
 
-        //then
-        assertEquals(3, employees.size());
-        assertEquals("e10", employees.get(0).getId().getKey());
-        assertEquals("e11", employees.get(0).getId().getKey());
-        assertEquals("e22", employees.get(0).getId().getKey());
 
-    }
+        void shouldFindEmployeesBasedInGivenLocation() {
+            //when
+            var employees = employeeStatsService.findEmployeesBasedIn(Localtion.GERMANY);
+
+            //then
+            assertEquals(3, employees.size());
+            var collectedId = employees.stream().map(e -> e.getId().getKey()).collect(Collectors.toSet());
+            assertTrue(collectedId.contains("e10"));
+            assertTrue(collectedId.contains("e11"));
+            assertTrue(collectedId.contains("e22"));
+        }
+
+
 
     @Test
     void shouldCountEmployeesByHireYear() {
