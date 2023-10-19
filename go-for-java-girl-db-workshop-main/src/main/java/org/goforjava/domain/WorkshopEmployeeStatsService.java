@@ -2,6 +2,8 @@ package org.goforjava.domain;
 
 import org.goforjava.db.DB;
 import org.goforjava.db.EmployeeDB;
+
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.time.LocalDate;
 import java.util.*;
@@ -21,8 +23,7 @@ public class WorkshopEmployeeStatsService implements EmployeeStatsService{
     public List<Employee> findEmployeesOlderThen(long years) {
         List<Employee> listOfEmployeesOlderThen = employeeDB.findAll()
                 .stream()
-                .filter(employee -> employee.getBirthDate().getYear() - LocalDate.now().getYear() >= years)
-                .toList();
+                .filter(employee -> LocalDateTime.now().getYear() -employee.getBirthDate().getYear() >= years).collect(Collectors.toList());
 
         return listOfEmployeesOlderThen;
     }
